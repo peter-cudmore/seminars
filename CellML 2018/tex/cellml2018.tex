@@ -48,7 +48,7 @@
 \frametitle{Goals of this talk}
 My first aim is to convince you that:
 \begin{itemize}
-	\item Bond graphs are a `natural' way to model energy distribution across networks
+	\item Bond graphs are a `natural' way to model energy distribution across networked systems
 	\item Bond graphs are very useful for modelling multi-domain systems.
 \end{itemize}
 
@@ -192,7 +192,7 @@ which are used to update the co-ordinates of $\Phi_B,\Phi_C$ and $\Phi_D$.
 	\begin{itemize}
 		\item Subsystem defined by constitutive relations $\Phi_B(e_1,f_1) = 0$  etc.
 		\item Bonds show \emph{shared variables} through which power is balanced.
-		\item Arrows indicate positive $f$ (sign convention).
+		\item Half arrows indicate positive $f$ (sign convention).
 \end{itemize}
 \end{frame}
 \begin{frame}
@@ -284,8 +284,9 @@ The C component stores potential energy.
 \begin{figure}
 	\includegraphics{oneport-C.pdf}
 \end{figure}
+The constitutive relation is given by
 \[
-\Phi_\text{C}(e,f) = Ce - \int f \df{t} = 0
+\Phi_\text{C}(e,f) = Ce - \int f \df{t} = 0.
 \]
 \vspace{10pt}
 
@@ -304,6 +305,61 @@ Here $f$ is allowed to vary freely and effort is specified by a control variable
 \Phi_\text{Se}(e,f) = e - u.
 \]
 
+\end{frame}
+\begin{frame}
+\frametitle{Table of Constitutive Relations}
+\begin{scriptsize}
+	\begin{minipage}[c][\textheight][t]{0.4\textwidth}
+		\vspace{0.75cm}
+		\begin{tabular}{| l | c |}
+			Node & Constitutive Relation\\
+			\hline
+			& \\
+			R & $\Phi_\text{R} = e -Rf$\\
+			L & $\Phi_\text{L} = \int e\df{t} - Lf$\\
+			C & $\Phi_\text{C} = Ce - \int f \df{t}$\\&\\
+			Se & $\Phi_\text{Se} = e - u$\\
+			Sf & $\Phi_\text{Sf} = f - u$\\&\\
+			TF & $\Phi_\text{TF} =\left(\begin{matrix}
+			e_2 - \rho e_1 \\
+			f_2 +\frac{1}{\rho}f_1
+			\end{matrix} \right)$\\
+			GY & $\Phi_\text{GY} =\left(\begin{matrix}
+			e_2 - \rho f_1 \\
+			f_2 +\frac{1}{\rho}e_1
+			\end{matrix} \right)$\\&\\
+			Ce & $\Phi_\text{Ce} = e -\alpha - \beta\ln \int f\df{t}$
+		\end{tabular}
+	\end{minipage}\hfill
+	\begin{minipage}[c][\textheight][t]{0.45\textwidth}
+		\vspace{0.75cm}
+		\begin{tabular}{| l | c |}
+			Node & Constitutive Relation\\
+			\hline
+			&\\
+			0 &$	\Phi_\text{0} = \left(\begin{matrix}
+			e_1 -e_2\\
+			\ldots\\
+			e_{j-1} - e_j\\
+			f_1 + f_2 + \ldots + f_j 
+			\end{matrix}\right)$\\
+			&
+			\\
+			1&$	\Phi_\text{1} = \left(\begin{matrix}
+			f_1 -f_2\\
+			\ldots\\
+			f_{j-1} - f_j\\
+			e_1 + e_2 + \ldots + e_j 
+			\end{matrix}\right)$\\ &\\
+			Re & $\Phi_\text{Re}= \left( 
+			\begin{matrix}
+			\kappa \e^{\alpha e_1} - \kappa \e^{\alpha e_2} - f_1\\
+			f_1 + f_2
+			\end{matrix}
+\right)$\\&
+		\end{tabular}
+	\end{minipage}
+\end{scriptsize}
 \end{frame}
 \begin{frame}
 \frametitle{Putting it Together}
@@ -361,42 +417,72 @@ Network subsystems can be:
 Bond Graph researchers at the SBL:
 \begin{itemize}
 	\item Prof. Edmund Crampin (Director)
-	\item \only<1,3-4>{Prof. Peter Gawthrop} \only<2>{\emph{Prof. Peter Gawthrop}}
+	\item Prof. Peter Gawthrop
 	\item Michael Pan
 	\item PC
 \end{itemize}
-\only<1>{
-	\url{https://systemsbiologylaboratory.org/}\\
+\begin{small}
+
+Website: \url{https://systemsbiologylaboratory.org/}\\
 	\vspace{10pt}
 	
 At the Systems Biology Lab we aim to build `comprehensive' models of cells, with heart cells as our working model.\\
 \vspace{10pt}
 
-Bond Graphs play a central role in ensuring our models remain physical.}
-\only<2>{
-\url{www.gawthrop.net}
-	
-}
+Bond Graphs play a central role in ensuring our models remain physical.
+\end{small}
 \end{frame}
 
 
 \begin{frame}
-\frametitle{}
-Cellular biochemsitry and metabolism.
-\url{http://www.gawthrop.net}
-\end{frame}
-\begin{frame}
-\frametitle{Michael Pan}
-Electrophysiology and ionic homeostasis (Michael Pan - see later talk)
-\end{frame}
-\begin{frame}
-\frametitle{PC}
+\frametitle{Cellular Biochemsitry and Metabolism}
+
+Prof. Peter Gawthrop is working on bond graph models of cellular biochemsitry and metabolism.\\
+\vspace{10pt}
+
+Website: \url{www.gawthrop.net}
+\vspace{10pt}
+
+Recent Publications:
 \begin{itemize}
-	\item Bond Graph modelling tool-chain r\&d.
-	\item Bond Graphic active components in synthetic biology.
+	\itemsep1em
+	\item  P.J. Gawthrop, E.J. Crampin. 2017. \emph{Energy-based Analysis of Biomolecular Pathways}
+	Proceedings of the Royal Society A, 473:20160825.
+	\item P. Gawthrop. 2017. \emph{Computing Biomolecular System Steady-states.}
+	 IEEE Transactions on NanoBioscience, vol. PP, no. 99, pp. 1-1. 
 \end{itemize}
 
 
+\end{frame}
+\begin{frame}
+\frametitle{Electrophysiology}
+Michael Pan is working on bond graph approaches in electrophysiology and ionic homeostasis. \\
+\vspace{10pt}
+
+You'll hear more from Michael later in this session.\\
+\vspace{10pt}
+
+Recent Publications:
+\begin{itemize}
+	\itemsep1em
+	\item M. Pan, P.J. Gawthrop, J. Cursons, K. Tran, E.J. Crampin. 2018. \emph{Bond graph modelling of the cardiac action potential: Implications for drift and non-unique steady states}. Forthcoming.
+	\item M. Pan, P.J. Gawthrop, J. Cursons, K. Tran, E.J. Crampin. 2017.
+	\emph{The cardiac Na+/K+ ATPase: An updated, thermodynamically consistent model}.
+	Physiome Journal.
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Synthetic Biology}
+I joined the SBL in Nov, 2017 and am working on
+\begin{itemize}
+	\itemsep1em
+	\item Bond graph techniques for rational design in synthetic biology and bioengineering.
+	\item Improving the bond graph modelling tool-chain. 
+\end{itemize}
+\vspace{10pt}
+
+
+Website: \url{https://github.com/peter-cudmore/}
 
 \end{frame}
 
@@ -407,12 +493,11 @@ Electrophysiology and ionic homeostasis (Michael Pan - see later talk)
 {\small
 Thanks to
 \begin{itemize}
+		\itemsep1em
 	\item Prof. Edmund Crampin and Prof. Peter Gawthrop
 	\item Andre, the CellML workshop organisers and the Auckland Bioengineering Institute
-
-\item Systems Biology Laboratory, \\ School of Mathematics and Statistics and Department of Biomedical Engineering, University of Melbourne, Parkville, Victoria 3010
-
-\item ARC Centre of Excellence in Convergent Bio-Nano Science and Technology, \\
+\item Systems Biology Laboratory, School of Mathematics and Statistics and Department of Biomedical Engineering, University of Melbourne, Parkville, Victoria 3010
+\item ARC Centre of Excellence in Convergent Bio-Nano Science and Technology,
 Melbourne school of Engineering, 
 University of Melbourne, Parkville, Victoria 3010
 \end{itemize}
@@ -421,23 +506,20 @@ University of Melbourne, Parkville, Victoria 3010
 \end{frame}
 
 \begin{frame}
-\frametitle{Resources}
-\begin{center}
-These slides, and more, can be found at
-
-\url{https://github.com/peter-cudmore/}
-
-\end{center}
-
-
-\end{frame}
-\begin{frame}
 \frametitle{References}
 {\tiny
-	\begin{thebibliography}{3}
+	\begin{thebibliography}{6}
 		\bibitem{Feynman1961} Feynman, Richard. \emph{The Feynman Lectures on Physics; Volume 1.} U.S.A: Addison Wesley, 1964. ISBN 0-201-02115-3.
 		\bibitem{Karnopp} Karnopp, Dean C. and Margolis Donald L. and Rosenberg, Ronald C. \emph{System Dynamics: a Unified Approach}, Wiley, New York, 1990.
 		\bibitem{baez} Baez, John. \emph{This Weeks Finds in Mathematical Physics (Week 289).} 2010.  http://math.ucr.edu/home/baez/week289.html 
+		\bibitem{Gaw2017a}  P.J. Gawthrop, E.J. Crampin. 2017. \emph{Energy-based Analysis of Biomolecular Pathways}\\
+		Proceedings of the Royal Society A, 473:20160825.
+		\bibitem{Gaw2017b} P. Gawthrop. 2017. \emph{Computing Biomolecular System Steady-states.}\\
+		IEEE Transactions on NanoBioscience, vol. PP, no. 99, pp. 1-1. 
+		\bibitem{Pan2017} M. Pan, P.J. Gawthrop, J. Cursons, K. Tran, E.J. Crampin. 2017.
+			\emph{The cardiac Na+/K+ ATPase: An updated, thermodynamically consistent model}.
+			Physiome Journal.
+			
 \end{thebibliography}}
 \end{frame}
 \end{document}
