@@ -2,18 +2,29 @@
 \usepackage[utf8x]{inputenc}
 \usetheme{Dresden}
 \usecolortheme{beaver}
+
+
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{array}
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{hyphenat}
-\setbeamertemplate{navigation symbols}{} 
+
+\setbeamertemplate{navigation symbols}{}
+
+
 \title{An Introduction to Bond Graph Modelling}
 \subtitle{12th International CellML Workshop}
-\author{Peter Cudmore}
-\titlegraphic{\includegraphics[width=2cm]{PRIMARY_A_Vertical_Housed_RGB.png}}
-\institute{Systems Biology Lab, The University of Melbourne}
+\author{Peter Cudmore\inst{1,2}}
+\titlegraphic{\includegraphics[width=1.75cm]{PRIMARY_A_Vertical_Housed_RGB.png}}
+\institute[]{\tiny
+\inst{1} Systems Biology Laboratory, School of Mathematics and Statistics and Department of Biomedical Engineering, University of Melbourne, Parkville, Victoria 3010 \and
+\inst{2} ARC Centre of Excellence in Convergent Bio-Nano Science and Technology, Melbourne school of Engineering, University of Melbourne, Parkville, Victoria 3010}
+\date{}
+
+\graphicspath{{../../images/}}
+
 \newcommand{\D}[2]{\frac{\mathrm{d} #1}{\mathrm{d} #2}}
 \newcommand{\e}{\mathrm{e}}
 \newcommand{\I}{\mathrm{i}}
@@ -28,7 +39,13 @@
 \newcommand{\reals}{\mathbb{R}}
 \newcommand{\complex}{\mathbb{C}}
 \newcommand{\conj}[1]{\overline{#1}}
-\graphicspath{{../../images/}}
+
+\AtBeginSection[] { 
+	\begin{frame}
+	\tableofcontents[currentsection,hideallsubsections] 
+	\addtocounter{framenumber}{-1} 
+\end{frame}
+}
 \begin{document}
 	\begin{frame}
 	\titlepage
@@ -39,20 +56,39 @@
 \frametitle{Goals of this talk}
 My first aim is to convince you that:
 \begin{itemize}
-	\item Bond graphs are a `natural' way to model energy distribution across networks
+	\item Bond graphs are a `natural' way to model energy distribution across networked systems
 	\item Bond graphs are very useful for modelling multi-domain systems.
 \end{itemize}
 
 \vspace{10pt}
 
-Secondly, I will introduce some basic bond graph components, particular those for
-\begin{itemize}
-	\item distribution,
-	\item storage, and
-	\item dissipation.
-\end{itemize}
+I will then introduce some basic bond graph components.
+\vspace{10pt}
 
+Finally, I will talk briefly about bond graph research at the Systems Biology Lab.
+\vspace{10pt}
+
+Slides are online: \url{https://github.com/peter-cudmore/}
 \end{frame}
+
+\begin{frame}
+\frametitle{Bond Graph History}
+\begin{figure}
+\includegraphics[height=0.6\textheight, width=0.7\linewidth]{hydro.jpg}
+\end{figure}
+Bond graphs were invented by Henry Paynter~\cite{payter2000} in 1959.
+\end{frame}
+\begin{frame}
+\frametitle{Bond Graphs Today}
+:
+\begin{itemize}
+	\itemsep1em
+	\item Bond graph modelling is used both explicitly and implicitly in mechatronics, power systems engineering and control theory.
+	\item Bond graphs tie deeply into classical mechanics and thermodynamics.
+	\item Recent advances have included bond graph to models of biochemical reactions~\cite{Gaw2017a, Gaw2017b, Gaw2014}.
+\end{itemize}
+\end{frame}
+
 \section{Power distribution networks}
 \begin{frame}
 \frametitle{The Fundamental Law: Conservation of Energy}
@@ -62,7 +98,7 @@ Secondly, I will introduce some basic bond graph components, particular those fo
 
 - Richard Feynman, 1961~\cite{Feynman1961}.
 \end{frame}
-\begin{frame}{Energy Neworks}
+\begin{frame}{Energy Networks}
 Bond Graphs model systems that:
 \begin{itemize}
 	\item use energy as the core currency.
@@ -79,7 +115,7 @@ Hence Bond Graphs have a network structure!
 	\includegraphics{network_1.pdf}
 	\caption{An Energy Network}
 \end{figure}
-Nodes represent energetic subsystems.
+Nodes represent subsystems that act upon energy.
 
 \vspace{5pt}
 
@@ -174,7 +210,7 @@ which are used to update the co-ordinates of $\Phi_B,\Phi_C$ and $\Phi_D$.
 \only<3>{
 \begin{figure}
 	\includegraphics{bondgraph.pdf}
-\end{figure}Discard the extra circles, we get an acasual bond graph.}
+\end{figure}Discard the extra circles, we get an acausal bond graph.}
 
 \end{frame}
 \begin{frame}
@@ -185,7 +221,7 @@ which are used to update the co-ordinates of $\Phi_B,\Phi_C$ and $\Phi_D$.
 	\begin{itemize}
 		\item Subsystem defined by constitutive relations $\Phi_B(e_1,f_1) = 0$  etc.
 		\item Bonds show \emph{shared variables} through which power is balanced.
-		\item Arrows indicate positive $f$ (sign convention).
+		\item Half arrows indicate positive $f$ (sign convention).
 \end{itemize}
 \end{frame}
 \begin{frame}
@@ -277,13 +313,14 @@ The C component stores potential energy.
 \begin{figure}
 	\includegraphics{oneport-C.pdf}
 \end{figure}
+The constitutive relation is given by
 \[
-\Phi_\text{C}(e,f) = Ce - \int f \df{t} = 0
+\Phi_\text{C}(e,f) = Ce - \int f \df{t} = 0.
 \]
 \vspace{10pt}
 
 \begin{center}
-\emph{This is Hookes law and the ideal capacitor relation.}
+\emph{This is Hooke's law and the ideal capacitor relation.}
 \end{center}
 \end{frame}
 \begin{frame}
@@ -297,6 +334,63 @@ Here $f$ is allowed to vary freely and effort is specified by a control variable
 \Phi_\text{Se}(e,f) = e - u.
 \]
 
+\end{frame}
+\begin{frame}
+\frametitle{Table of Constitutive Relations}
+\begin{scriptsize}
+	\begin{minipage}[c][\textheight][t]{0.4\textwidth}
+		\vspace{0.75cm}
+		\begin{tabular}{| l | c |}
+			Node & Constitutive Relation\\
+			\hline
+			& \\
+			R & $\Phi_\text{R} = e -Rf$\\
+			L & $\Phi_\text{L} = \int e\df{t} - Lf$\\
+			C & $\Phi_\text{C} = Ce - \int f \df{t}$\\&\\
+			Se & $\Phi_\text{Se} = e - u$\\
+			Sf & $\Phi_\text{Sf} = f - u$\\&\\
+			TF & $\Phi_\text{TF} =\left(\begin{matrix}
+			e_2 - \rho e_1 \\
+			f_2 +\frac{1}{\rho}f_1
+			\end{matrix} \right)$\\
+			GY & $\Phi_\text{GY} =\left(\begin{matrix}
+			e_2 - \rho f_1 \\
+			f_2 +\frac{1}{\rho}e_1
+			\end{matrix} \right)$\\&\\
+			Ce & $\Phi_\text{Ce} = e -\alpha - \beta\ln \int f\df{t}$
+		\end{tabular}
+	\end{minipage}\hfill
+	\begin{minipage}[c][\textheight][t]{0.45\textwidth}
+		\vspace{0.75cm}
+		\begin{tabular}{| l | c |}
+			Node & Constitutive Relation\\
+			\hline
+			&\\
+			0 &$	\Phi_\text{0} = \left(\begin{matrix}
+			e_1 -e_2\\
+			\ldots\\
+			e_{j-1} - e_j\\
+			f_1 + f_2 + \ldots + f_j 
+			\end{matrix}\right)$\\
+			&
+			\\
+			1&$	\Phi_\text{1} = \left(\begin{matrix}
+			f_1 -f_2\\
+			\ldots\\
+			f_{j-1} - f_j\\
+			e_1 + e_2 + \ldots + e_j 
+			\end{matrix}\right)$\\ &\\
+			Re & $\Phi_\text{Re}= \left( 
+			\begin{matrix}
+			\kappa \e^{\alpha e_1} - \kappa \e^{\alpha e_2} - f_1\\
+			f_1 + f_2
+			\end{matrix}
+\right)$\\&
+		\end{tabular}
+	\end{minipage}
+
+\end{scriptsize}
+%Ce and Re are biochemical components~\cite{Gaw2014}
 \end{frame}
 \begin{frame}
 \frametitle{Putting it Together}
@@ -315,7 +409,7 @@ Here $f$ is allowed to vary freely and effort is specified by a control variable
 \left(\begin{matrix}
 e_S  - e_C\\
 e_S - e_R\\
-f_S  + (- f_R) +  (-f_R)
+f_S  + (- f_C) +  (-f_R)
 \end{matrix}\right)
 \end{eqnarray}
 \end{minipage}
@@ -329,7 +423,7 @@ f_S = \left(\frac{1}{R} + \frac{1}{C}\D{}{t}\right)u.
 \]
 \end{small}
 \end{frame}
-\section{Conclusion}
+
 \begin{frame}
 \frametitle{In Review}
 Hopefully I've convinced you that bond graphs :
@@ -342,39 +436,118 @@ Hopefully I've convinced you that bond graphs :
 
 Network subsystems can be:
 \begin{itemize}
-	\item derived from first principals,
+	\item derived from first principles,
 	\item defined phenomenologically, 
 	\item constructed hierarchically.
 \end{itemize}
+\emph{This makes for a powerful, multi-domain and multi-scale modelling tool.}
+\end{frame}
+\section{Bond Graphs @ SBL}
+\begin{frame}
+\frametitle{Bond Graphs @ SBL}
+Bond Graph researchers at the SBL:
+\begin{itemize}
+	\item Prof. Edmund Crampin (Director)
+	\item Prof. Peter Gawthrop
+	\item Michael Pan
+	\item PC
+\end{itemize}
+\begin{small}
+
+Website: \url{https://systemsbiologylaboratory.org/}\\
+	\vspace{10pt}
+	
+At the Systems Biology Lab we aim to build `comprehensive' models of cells, with heart cells as our working model.\\
+\vspace{10pt}
+
+Bond Graphs play a central role in ensuring our models remain physical.
+\end{small}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Cellular Biochemistry and Metabolism}
+
+Prof. Peter Gawthrop is working on bond graph models of cellular biochemistry and metabolism.\\
+\vspace{10pt}
+
+Website: \url{www.gawthrop.net}
+\vspace{10pt}
+
+Recent Publications:
+\begin{itemize}
+	\itemsep1em
+	\item  P.J. Gawthrop, E.J. Crampin. 2017. \emph{Energy-based Analysis of Biomolecular Pathways}
+	Proceedings of the Royal Society A, 473:20160825.
+	\item P. Gawthrop. 2017. \emph{Computing Biomolecular System Steady-states.}
+	 IEEE Transactions on NanoBioscience, vol. PP, no. 99, pp. 1-1. 
+\end{itemize}
+
+
 \end{frame}
 \begin{frame}
-\frametitle{Thanks}
-Thanks to
+\frametitle{Electrophysiology}
+Michael Pan is working on bond graph approaches in electrophysiology and ionic homeostasis. \\
+\vspace{10pt}
+
+You'll hear more from Michael later in this session.\\
+\vspace{10pt}
+
+Forthcoming publications:
 \begin{itemize}
-	\item Prof. Edmund Crampin and the Systems Biology Lab at UniMelb.
-	\item Andre, the CellML workshop organisers, and the Auckland Bioengineering Institute.
-	\item Others?
+	\itemsep1em
+	\item M. Pan, P.J. Gawthrop, J. Cursons, K. Tran, E.J. Crampin. \emph{Bond graph modelling of the cardiac action potential: Implications for drift and non-unique steady states}.
+	\item M. Pan, P.J. Gawthrop, J. Cursons, K. Tran, E.J. Crampin.
+	\emph{The cardiac Na+/K+ ATPase: An updated, thermodynamically consistent model}.
 \end{itemize}
 \end{frame}
+\begin{frame}
+\frametitle{Synthetic Biology}
+I joined the System Biology Lab in November, 2017 and am working on
+\begin{itemize}
+	\itemsep1em
+	\item Bond graph techniques for rational design in synthetic biology and bioengineering.
+	\item Improving the bond graph modelling tool-chain. 
+	\item Investigating the connection between bond graphs, Hamiltonian mechanics, network dynamics, and operator theory applications to stochastic mechanics.
+\end{itemize}
+\vspace{10pt}
+
+
+Website: \url{https://github.com/peter-cudmore/}
+
+\end{frame}
+
+
 
 \begin{frame}
-\frametitle{Resources}
-\begin{center}
-These slides, and more, can be found at
-
-\url{https://github.com/peter-cudmore/}
-
-\end{center}
-
-
+\frametitle{Thanks}
+{\small
+Thanks to
+\begin{itemize}
+		\itemsep1em
+	\item Prof. Edmund Crampin and Prof. Peter Gawthrop
+	\item Andre, the CellML workshop organisers and the Auckland Bioengineering Institute
+\item Systems Biology Laboratory, School of Mathematics and Statistics and Department of Biomedical Engineering, University of Melbourne, Parkville, Victoria 3010
+\item ARC Centre of Excellence in Convergent Bio-Nano Science and Technology,
+Melbourne school of Engineering, 
+University of Melbourne, Parkville, Victoria 3010
+\end{itemize}
+}
 \end{frame}
 \begin{frame}
 \frametitle{References}
 {\tiny
-	\begin{thebibliography}{3}
+	\begin{thebibliography}{6}
 		\bibitem{Feynman1961} Feynman, Richard. \emph{The Feynman Lectures on Physics; Volume 1.} U.S.A: Addison Wesley, 1964. ISBN 0-201-02115-3.
 		\bibitem{Karnopp} Karnopp, Dean C. and Margolis Donald L. and Rosenberg, Ronald C. \emph{System Dynamics: a Unified Approach}, Wiley, New York, 1990.
-		\bibitem{baez} Baez, John. \emph{This Weeks Finds in Mathematical Physics (Week 289).} 2010.  http://math.ucr.edu/home/baez/week289.html 
+		\bibitem{baez} Baez, John. 2010. \emph{This Weeks Finds in Mathematical Physics (Week 289).} \url{http://math.ucr.edu/home/baez/week289.html}
+		\bibitem{Gaw2017a}  P.J. Gawthrop, E.J. Crampin. 2017. \emph{Energy-based Analysis of Biomolecular Pathways}\\
+		Proceedings of the Royal Society A, 473:20160825.
+		\bibitem{Gaw2017b} P. Gawthrop. 2017. \emph{Computing Biomolecular System Steady-states.}\\
+		IEEE Transactions on NanoBioscience, vol. PP, no. 99, pp. 1-1. 
+		\bibitem{Gaw2014} P.J. Gawthrop, E.J. Crampin. 2014. \emph{Energy-based analysis of biochemical cycles using bond graphs}\\
+		Proceedings of the Royal Society A, 470:20140459.
+		\bibitem{payter2000} Payner, H.M. 2000. \emph{The Gestation and Birth of Bond Graphs} \url{http://www.me.utexas.edu/\~longoria/paynter/hmp/Bondgraphs.html}
 \end{thebibliography}}
 \end{frame}
 \end{document}
