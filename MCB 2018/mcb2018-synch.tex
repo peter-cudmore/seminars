@@ -5,11 +5,12 @@
 \usecolortheme{beaver}
 \usepackage{amsmath}
 \usepackage{amsthm}
-\usepackage{amsfonts}
+%\usepackage{amsfonts}
 \usepackage{graphicx}
 \usepackage{animate}
-\usepackage{media9}
+%\usepackage{media9}
 \usepackage[absolute,overlay]{textpos}
+\usepackage{hyperref}
 \usepackage{calc}
 \usepackage{xcolor}
 \usepackage{tcolorbox}
@@ -36,20 +37,20 @@
 \newcommand{\iip}[2]{\langle #1,#2\rangle}
 \newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
 
-\newcommand{\includemovie}[3]{%
-	\includemedia[%
-	width=#1,height=#2,%
-	activate=pagevisible,%
-	deactivate=pageclose,%
-	addresource=#3,%
-	flashvars={%
-		src=#3 % same path as in addresource!
-		&autoPlay=true % default: false; if =true, automatically starts playback after activation (see option ‘activation)’
-		&loop=true % if loop=true, media is played in a loop
-		&controlBarAutoHideTimeout=0 %  time span before auto-hide
-	}%
-	]{}{StrobeMediaPlayback.swf}%
-}
+%\newcommand{\includemovie}[3]{%
+%	\includemedia[%
+%	width=#1,height=#2,%
+%	activate=pagevisible,%
+%	deactivate=pageclose,%
+%	addresource=#3,%
+%	flashvars={%
+%		src=#3 % same path as in addresource!
+%		&autoPlay=true % default: false; if =true, automatically starts playback after activation (see option ‘activation)’
+%		&loop=true % if loop=true, media is played in a loop
+%		&controlBarAutoHideTimeout=0 %  time span before auto-hide
+%	}%
+%	]{}{StrobeMediaPlayback.swf}%
+%}
 \DeclareCiteCommand{\cite}
 {\usebibmacro{prenote}}%
 {%  
@@ -57,6 +58,7 @@
 		\usebibmacro{citeindex}%
 		\let\thefootnote\relax%
 		\footnotetext{%
+			\scriptsize
 			\mkbibbrackets{\usebibmacro{cite}}%
 			\setunit{\addnbspace}
 			\printnames{labelname}%
@@ -83,7 +85,7 @@
 %		\usebibmacro{journal}}
 %	{\usebibmacro{cite:shorthand}}}
 \graphicspath{{./},{../images/}}
-\addmediapath{{./anims/},{.}}
+%\addmediapath{{./anims/},{.}}
 \title{Synchronisation}
 \author{Peter Cudmore}
 \bibliography{references}
@@ -131,6 +133,7 @@ Translated: 'Sharing the common time' or 'sharing the same time'
 %\includemovie{.85\textheight}{.85\textheight}{movies/nature08753-s2.mov}
 \begin{figure}
 \includegraphics[width=0.95\linewidth]{nature08753-f12}
+\caption{Synchronised Florescence in E.Coli, \href{https://www.nature.com/articles/nature08753}{supplementary material} for video.}
 \end{figure}
 \end{frame}
 \begin{frame}{A Definition}
@@ -317,32 +320,42 @@ Decoupled system has unstable node and a stable limit cycle.
 \quad \D{z_j}{t} = (\alpha - \beta|z_j|^2)z_j + \I\omega_jz_j +\Gamma_j(\mathbf{z}), \qquad j = 1,\ldots, n.
 \]
 \only<1>{
+\begin{minipage}{0.6\linewidth}
 Network models usually assume linear coupling \[\Gamma_j(\mathbf{z}) = \sum_k w_{jk}z_k.\]
 Some common choices include:
 \begin{itemize}
 	\item All-to-all coupling: $w_{jk} = K/n$
-	\item Nearest-neighbour: $w_{jk} = K/n $ iff $(k - j) \mod n = 1$
+	\item Nearest-neighbour: $w_{jk} = K/n $ iff $k=j\pm1$
 	\item Small world networks,
 	\item Random networks.
 \end{itemize}
-Nonlinear $\Gamma$ must commute with $\e^{\I \zeta}$. (why?)}
+\end{minipage}\hfill
+\begin{minipage}{0.3\linewidth}
+\begin{figure}
+	\includegraphics[width=\linewidth]{graph}
+	\caption{Part of a small world network}
+\end{figure}
+
+\end{minipage}}
 \only<2>{
 
+Nonlinear $\Gamma$ must commute with $\e^{\I \zeta}$. (why?)
+\vfill
 We restrict ourselves to linear and nonlinear all-to-all coupling of the form
 \[
-\Gamma(\mathbf{z}) =zF(|z|)=  z(K + K_1|z|^2 + K_2|z|^4 +\ldots) 
+\Gamma(\mathbf{z}) =zF(|z|)\qquad  \text{where}\qquad z = \frac{1}{n}\sum_{k=1}^nz_k.
 \]
-where 
-\[
-z = \frac{1}{n}\sum_{k=1}^nz_k, \qquad K,K_1,\ldots \in \complex
-\]
-and $F(|z|) \rightarrow 0$ as $|z|\rightarrow \infty$
+We will assume where $F:\reals_+ \rightarrow \complex$ and $F(|z|) \rightarrow 0$ as $|z|\rightarrow \infty$
 
 }
 \end{frame}
 \begin{frame}{Coupled Limit Cycle Oscillators}
 \[
- \quad \D{z_j}{t} = (\alpha - \beta|z_j|^2)z_j + \I\omega_jz_j +\Gamma_j(\mathbf{z}), \qquad j = 1,\ldots, n.
+ \quad \D{z_j}{t} = (\alpha - \beta|z_j|^2)z_j + \I\omega_jz_j +zF(|z|), \qquad j = 1,\ldots, n.
+\]
+with 
+\[
+z=\frac{1}{n}\sum_{k=1}^n z_k.
 \]
 \vfill
 
@@ -350,10 +363,211 @@ To recap:
 \begin{itemize}
 	\item Oscillators are modelled as points $z_j$ rotating in $\complex$,
 	\item $\alpha, \beta$ are fixed parameters,
-	\item $\omega_j$ is sampled from a distribution $g(\omega)$,
-	\item $\Gamma_j$ is how the oscillator population influences $z_j$,
-	\item The mean field $z= \frac{1}{n}\sum_{k=1}^n z_k$ measures coherence.
+	\item $\omega_j$ is sampled from an \emph{even symmetric} distribution $g(\omega)$,  
+	\item $F$ is smooth and $F(|z|)\rightarrow 0$ as $|z|\rightarrow\infty$ ,
+	\item The mean field $z$ is often a useful measure of coherence.
 \end{itemize}
 \vfill
 \end{frame}
+\section{Limit Cycle Dynamics}
+\begin{frame}{Deriving the Kuramoto Model}
+\[
+\quad \D{z_j}{t} = (\alpha - \beta|z_j|^2)z_j + \I\omega_jz_j +zF(|z|), \qquad j = 1,\ldots, n.
+\]
+Kuramoto~\cite{kuramoto75} considered the limit $\alpha, \beta \rightarrow \infty$ with $\alpha/\beta \rightarrow 1$, and $F(r)=K$ is real-valued and constant. \only<1>{Let $z_j=r_j\exp(\I\theta_j)$. It follows that 
+\[
+\frac{1}{z_j}\D{z_j}{t} = \D{\log z_j}{t}= \D{}{t}\left( \ln r_j + \I\theta_j\right) = \alpha -\beta r_j^2 + \I\omega_j + K\frac{r}{r_j}\e^{\I(\psi - \theta_j)}
+\]
+\begin{minipage}{0.6\linewidth}
+we thus have
+\begin{eqnarray*}
+\frac{1}{\beta}\D{r_j}{t} &=& r_j(\frac{\alpha}{\beta} - r_j^2) + \frac{K}{\beta}\frac{r}{r_j}\cos(\psi-\theta_j)\\
+\D{\theta_j}{t} &=&\omega_j + K\frac{r}{r_j}\sin(\psi-\theta_j)
+\end{eqnarray*}
+\end{minipage}\hfill
+\begin{minipage}{0.275\linewidth}
+\includegraphics[height=0.3\textheight]{hopffast}
+\end{minipage}
+}
+\only<2>{
+\begin{minipage}{0.7\linewidth}
+\vspace{10pt}
+
+The system becomes a 'phase oscillator'
+\[
+\D{\theta_j}{t} = \omega_j + Kr\sin(\psi - \theta_j)
+\]
+\begin{itemize}
+	\item The effective coupling strength is $Kr$!
+	\item There is a Hopf at $K = 2/[\pi g(0)]$.
+	\item When $K>K_c$, $r \rightarrow r_\infty$.
+\end{itemize}
+\end{minipage}\hfill
+\begin{minipage}{0.3\linewidth}
+	\includegraphics[height=0.3\textheight]{hopffast}
+\end{minipage}
+
+
+}
+\end{frame}
+\begin{frame}{Demonstration}
+\centering
+\vfill
+...cut to Jupyter
+\end{frame}
+\begin{frame}{Amplitude Dynamics}
+\[
+\quad \D{z_j}{t} = (\alpha - \beta|z_j|^2)z_j + \I\omega_jz_j +zF(|z|), \qquad j = 1,\ldots, n.
+\]
+Matthews, Mirollo and Strogatz\cite{Matthews91} showed that in the $\alpha, \beta \approx O(1)$ regime there is a wide variety of dynamical states even for uni-modal $g$.
+In addition to synchronised states and incoherence, they found:
+\begin{itemize}
+	\item amplitude death,
+	\item quasi-periodic states,
+	\item multi-stability,
+	\item period doubling cascades and
+	\item chaos
+\end{itemize}
+\end{frame}
+\begin{frame}{Amplitude Death}
+\[
+\quad \D{z_j}{t} = (\alpha - \beta|z_j|^2)z_j + \I\omega_jz_j +zF(|z|), \qquad j = 1,\ldots, n.
+\]
+
+Amplitude death occurs when increasing the spread of frequencies causes the origin to become an attracting.
+\vfill
+Ermentrout\cite{Ermentrout90} showed that amplitude death 
+\begin{itemize}
+\item occurs in a wide variety of systems, 
+\item does not depend special symmetries 
+\item or infinite-range coupling
+\end{itemize}
+\end{frame}
+\begin{frame}{Amplitude Death}
+\[
+\quad \D{z_j}{t} = (\alpha - \beta|z_j|^2)z_j + \I\omega_jz_j +zF(|z|), \qquad j = 1,\ldots, n.
+\]
+Mirollo and Strogatz~\cite{Mirollo90} defined
+$f(\mu) = \int_{-\infty}^\infty \frac{g(\omega)}{\mu - \I\omega}\df{\omega}$
+\begin{tcolorbox}[notitle, boxrule=0pt, colback=lred]
+\begin{theorem}[\citeauthor{Mirollo90}]
+Let $\alpha = 1-K$, $F(|z|)=K$ and assume that the density $g(\omega)$ is an even function which is nonincreasing on $[0,\infty)$.
+Then: 
+\begin{itemize}
+	\item (A) Amplitude death is stable with 
+	probability $\rightarrow 1$ as $n \rightarrow \infty$, $f(K-1) < \frac{1}{K}$
+\item (B) Amplitude death is stable with 
+probability $\rightarrow 1$ as $n \rightarrow \infty$, $f(K-1) > \frac{1}{K}$
+\end{itemize}
+\end{theorem}
+\end{tcolorbox}
+\end{frame}
+\begin{frame}{Demonstration of amplitude death.}
+\centering
+\vfill
+...some more examples.
+\end{frame}
+\begin{frame}{The Dispersion Function}
+\[
+\quad \D{z_j}{t} = (\alpha - \beta|z_j|^2)z_j + \I\omega_jz_j +zF(|z|), \qquad j = 1,\ldots, n.
+\]
+Matthews, Mirollo and Strogatz~\cite{Matthews91} considered the dispersion function
+\[f(\mu) = \int_{-\infty}^\infty \frac{g(\omega)}{\mu - \I\omega}\df{\omega}.\]
+for real valued $\mu$.
+
+When $g$ is symmetric and unimodal
+\begin{itemize}
+\item $f(\mu)$ is real valued iff $\mu$ real valued.
+\item $f$ is odd and strictly decreasing on $[0,\infty)$
+\item $f$ is discontinuous at $\mu=0$ and $\lim_{\mu\rightarrow 0^+} = \pi g(0)$.
+\end{itemize}
+\end{frame}
+\begin{frame}{Stable Node Dynamics}
+\[
+\D{z_j}{t} = (\alpha - \beta|z_j|^2)z_j + \I\omega_jz_j +zF(|z|), \qquad j = 1,\ldots, n.
+\]
+Consider the case where $\alpha = -1$,$\beta=0$, $F$ smooth, bounded and $F\rightarrow 0$ as $|z|\rightarrow\infty$.  
+\vfill
+\only<1>{
+	It follows from a fixed point argument that amplitude death and full synchronisation are the only limiting sets.
+\vspace{10pt}
+In particular, $z_j$ is fixed iff $z$ is fixed up to a constant $\exp(\I\Omega t + \Theta_0)$}
+\only<2>{
+\begin{tcolorbox}[notitle, boxrule=0pt, colback=lred]
+\begin{theorem}
+	Let $g$ be a even symmetric probability distribution, non-increasing on $[0,\infty)$, let $A = \{\lambda: \Re[\lambda] > 1\} \subset\complex$ and $E = 1/f(A)\subset\complex$. Then amplitude death is unstable with probability $\rightarrow 1$ as $n\rightarrow \infty$ if and only if $F() \in E$.
+\end{theorem}
+\end{tcolorbox}
+}
+\end{frame}
+\begin{frame}{Proof of Amplitude Death}
+\only<1>{
+To prove the stability result we require:
+\begin{tcolorbox}[notitle, boxrule=0pt, colback=lred]
+\begin{theorem}
+	Let $g(\omega)$ be an even symmetric probability distribution, non-increasing on $[0,\infty)$. Then the dispersion function $f: \complex_+\rightarrow Y \subset\complex_+$ is a conformal map.
+\end{theorem}
+\end{tcolorbox}
+}
+
+\only<2>{
+Sketch of proof:
+\begin{itemize}
+	\item Linearise the system about $z_j=0$..
+	\item Show that the limiting operator has has continuous spectrum along $\Re[\lambda] = -1$, and a discrete spectrum at $F(0) = \frac{1}{f(\lambda+1)}$.
+	\item Use the conformal property of $f$ to show $F(0)\in E$ implies $\lambda+1 \in A$ and hence fixed point is unstable.
+\end{itemize}}
+\begin{center}
+	\includegraphics[scale=0.85]{scm2}
+\end{center}	
+\end{frame}
+\begin{frame}{Synchronised States}
+\[
+\D{z_j}{t} = (\alpha - \beta|z_j|^2)z_j + \I\omega_jz_j +zF(|z|), \qquad j = 1,\ldots, n.
+\]
+Consider the case where $\alpha = -1$,$\beta=0$, $F$ smooth, bounded and $F\rightarrow 0$ as $|z|\rightarrow\infty$.  
+\vfill
+There are also results on stability and bifurcations\cite{pc2015} which are expressed in terms of a playoff between
+\begin{itemize}
+	\item Population heterogeneity (via $f(\mu) = \int_{-\infty}^\infty \frac{g(\omega)}{\mu - \I\omega}\df{\omega}$ and it's derivatives) and 
+	\item coupled topology (via the nature of $F$)
+\end{itemize}
+\end{frame}
+\begin{frame}{Demonstration of Node dynamics.}
+\centering
+\vfill
+...more Jupyter Examples.
+\end{frame}
+\section{Conclusion}
+\begin{frame}
+Hopefully i've convinced you that:
+\begin{itemize}
+	\item Synchronisation is an example of emergence,
+	\item resulting from mutual interactions between parts of a larger system.
+	\item The different coupling mechanisms and population variability can lead to differing synchronisation properties,
+	\item which can be simulated and, in some cases, solved explicitly.
+	\item There are also deep mathematical properties buried not far from the surface.
+\end{itemize}
+\end{frame}
+\begin{frame}{Thanks and Acknowledgements}
+
+
+This research was performed under the supervision of Dr. Catherine. A. Holmes, Prof. Joseph Grotowski and Dr. Cecilia Gonzales Tokman at the University of Queensland (UQ) as part the doctoral program funded by the ARC.
+\vspace{12pt}
+
+Additional thanks to Prof. Gerard Milburn, Dr. James Bennett at the UQ ARC Centre of Excellence for Engineered Quantum Systems (EQUS).
+\end{frame}
+\begin{frame}{Appendix: Quantum Optomechanics}
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{cavity.jpg}\caption{An optomechanical system~\cite{nanoimg}}
+\end{figure}
+\end{frame}
+\begin{frame}{Appendix: Schematic of an optomechanical system}
+\begin{figure}
+	\includegraphics[width=0.9\linewidth]{schem2}\caption{Optomechanical equivalent circuit}
+\end{figure}
+\end{frame}
+
+{\tiny
+\printbibliography}
 \end{document}

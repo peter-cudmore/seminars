@@ -8,14 +8,31 @@ import networkx as nx
 
 class OscillatorModel(animation.TimedAnimation):
     def __init__(self,
-                 nodes=100,
+                 nodes=50,
                  coupling_network=nx.complete_graph,
                  distribution=np.random.standard_normal,
-                 timesteps=500,
+                 timesteps=200,
                  t_end=25,
                  symmetric=False,
+                 interval=10,
                  **osc_params):
+        """
+        :param nodes: The number of oscillators to simulate (default 50)
+        :param coupling_network: Networkx graph construction function
+        representing the coupling topology (default is nx.complete_graph). The
+        function should take a single argument, the number of nodes, and return
+        a graph.
+        :param distribution: Function to generate the frequency distribution.
+        It should take an single argument, the number of nodes, and return a
+        numpy array containing the frequency   
+        :param timesteps:
+        :param t_end:
+        :param symmetric:
+        :param interval:
+        :param osc_params:
+        """
 
+        self.t_end = t_end
         self.n = nodes
         if symmetric:
             freq = list(distribution(int(nodes / 2)))
@@ -26,14 +43,20 @@ class OscillatorModel(animation.TimedAnimation):
         else:
             self.omega = np.array(sorted(distribution(int(nodes))))
         self.graph = coupling_network(nodes)
-        self.t = np.linspace(0, t_end, timesteps).T
-        self.z = np.zeros((nodes, timesteps), dtype=np.complex)
+        if t_end:
+            self.t = np.linspace(0, t_end, timesteps).T
+            self.z = np.zeros((nodes, timesteps), dtype=np.complex)
+        else:
+            self.z = np.zeros((nodes, 1), dtype=np.complex)
 
         self.z[:, 0] = np.random.uniform(low=-1, high=1, size=self.z[:,
                                                               0].shape) + 1j * np.random.uniform(
             low=-1, high=1, size=self.z[:, 0].shape)
-        self._solve_ode(**osc_params)
-        max_z = abs(self.z).max()
+        if t_end:
+            self._solve_ode(**osc_params)
+
+        max_z = max(min(abs(self.z).max(), 5), 1)
+        #max_z = 2
         fig = plt.figure()
         gs = GridSpec(2, 5)
         self.ax_phase = plt.subplot(gs[0, :3])
@@ -41,7 +64,11 @@ class OscillatorModel(animation.TimedAnimation):
         self.ax_r = plt.subplot(gs[1, :])
         self._init_phase_axis()
         self._init_complex_plane(extent=max_z)
-        self._init_r_axis(t_end, max_z)
+        if not t_end:
+            self._init_r_axis(20, max_z)
+        else:
+            self._init_r_axis(t_end, max_z)
+
         gs.tight_layout(fig)
 
         self.o_line = Line2D([], [], color='none', marker='.',
@@ -57,19 +84,59 @@ class OscillatorModel(animation.TimedAnimation):
         self.r_line = Line2D([], [], color='red')
         self.ax_r.add_line(self.r_line)
 
-        animation.TimedAnimation.__init__(self, fig, interval=25, blit=True)
+        self._sn = 1./np.sqrt(nodes)
+        if t_end:
+            self.rn_line = Line2D([0, t_end],[self._sn, self._sn], linestyle=':')
+        else:
+            self.rn_line = Line2D([0, 100], [self._sn, self._sn],
+                                  linestyle=':')
+        self._running = False
+        self.ax_r.add_line(self.rn_line)
+        self._gen_args = osc_params
+        self._timestep = interval / 1000.0
+        animation.TimedAnimation.__init__(self, fig, interval=interval, blit=True)
 
-    def _solve_ode(self, alpha=1, omega=0, beta=1, k=1):
-
+    def _ode_generator(self, alpha=1, omega=0, beta=1, k=1):
         L = np.diag(alpha + 1j * (self.omega + omega)) + k * nx.to_numpy_array(
             self.graph, dtype=np.complex) / self.n
         NL = -beta * np.eye(self.n, dtype=np.complex)
+        self._running = True
 
+        z = self.z[:,0]
+        dt = 10 ** (-3)
+        t = 0
+        while self._running:
+            t_next = t + self._timestep
+            while t < t_next:
+                F1 = (L + NL * np.power(np.abs(z), 2)).dot(z)
+                k1 = dt*F1
+                k2 = dt * (L + NL * np.power(np.abs(z+k1/2), 2)).dot(z + k1/2)
+                k3 = dt * (L + NL * np.power(np.abs(z + k2 / 2), 2)).dot(z + k2 / 2)
+                k4 = dt * (L + NL * np.power(np.abs(z + k3), 2)).dot(z + k3)
+                z += (k1 + 2*k2 + 2*k3 + k4)/6
+                t += dt
+
+            yield (t, z)
+
+    def _solve_ode(self, alpha=1, omega=0, beta=1, k=1):
+        L = np.diag(alpha + 1j * (self.omega + omega)) + k * nx.to_numpy_array(
+            self.graph, dtype=np.complex) / self.n
+        NL = -beta * np.eye(self.n, dtype=np.complex)
         for i in range(1, self.t.size):
-            dt = (self.t[i] - self.t[i - 1])
-            zs = np.power(np.abs(self.z[:, i - 1]), 2)
-            dz = (L + NL * zs).dot(self.z[:, i - 1])
-            self.z[:, i] = self.z[:, i - 1] + dt * dz
+            t = self.t[i - 1]
+            t_end = self.t[i]
+            z = self.z[:, i - 1]
+            dt = 10**(-3)
+            while t < t_end:
+                F1 = (L + NL * np.power(np.abs(z), 2)).dot(z)
+                k1 = dt*F1
+                k2 = dt * (L + NL * np.power(np.abs(z+k1/2), 2)).dot(z + k1/2)
+                k3 = dt * (L + NL * np.power(np.abs(z + k2 / 2), 2)).dot(z + k2 / 2)
+                k4 = dt * (L + NL * np.power(np.abs(z + k3), 2)).dot(z + k3)
+                z += (k1 + 2*k2 + 2*k3 + k4)/6
+                t += dt
+
+            self.z[:, i] = z
 
     def _init_phase_axis(self):
         ax = self.ax_phase
@@ -86,7 +153,10 @@ class OscillatorModel(animation.TimedAnimation):
 
     def _init_complex_plane(self, extent=1):
         ax = self.ax_complex
-        l = int(np.ceil(abs(extent)))
+        try:
+            l = int(np.ceil(abs(extent)))
+        except ValueError:
+            l = 2
         ax.set_ylim(-1.2 * l, 1.2 * l)
         ax.set_xlim(-1.2 * l, 1.2 * l)
         y_major = range(-l, l + 1)
@@ -113,12 +183,24 @@ class OscillatorModel(animation.TimedAnimation):
         for line in lines:
             line.set_data([], [])
 
+    # def new_frame_seq(self):
+    #     return iter(range(self.t.size))
+
     def new_frame_seq(self):
-        return iter(range(self.t.size))
+        if self.t_end:
+            return iter(range(self.t.size))
+        else:
+            return self._ode_generator(**self._gen_args)
 
     def _draw_frame(self, framedata):
-        i = framedata
-        z = self.z[:, i]
+
+        if self.t_end:
+            i = framedata
+            z = self.z[:, i]
+            t = self.t[i]
+        else:
+            t, z = framedata
+
         zsum = np.sum(z) / self.n
         theta_avg = np.angle(zsum)
         theta = np.remainder(np.pi + np.angle(z) - theta_avg, 2 * np.pi) - np.pi
@@ -129,9 +211,42 @@ class OscillatorModel(animation.TimedAnimation):
         self.cz_line.set_data([np.real(zsum)], [np.imag(zsum)])
 
         rx, ry = self.r_line.get_data()
-        rx.append(self.t[i])
+
+        rx.append(t)
         ry.append(abs(zsum))
 
+        if len(rx) > 200:
+            self.ax_r.set_xlim(rx[1], rx[-1])
+            rx = rx[1:]
+            ry = ry[1:]
+            self.rn_line.set_data([rx[1], rx[-1]], [self._sn, self._sn])
+            self._drawn_artists = [self.rn_line]
+        else:
+            self._drawn_artists = []
+
         self.r_line.set_data(rx, ry)
-        self._drawn_artists = [self.o_line, self.c_line, self.cz_line,
+
+        self._drawn_artists += [self.o_line, self.c_line, self.cz_line,
                                self.r_line]
+
+
+
+def plot_graph(g=None):
+    if not g:
+        g = nx.watts_strogatz_graph(10,5,0.2)
+        labels = {i: str(i) for i in g.nodes}
+        edge_labels = dict()
+        for edge in g.edges:
+            i,j = edge
+            edge_labels[edge] = "$w_{{{i},{j}}}$".format(i=i,j=j)
+        pos = nx.spring_layout(g, k=1)
+
+        nodes =nx.draw_networkx_nodes(g,pos, node_color='white', edgecolors='red', node_size=400)
+        edges = nx.draw_networkx_edges(g,pos, alpha=0.4)
+        lbls = nx.draw_networkx_labels(g,pos)
+        edge_labels = nx.draw_networkx_edge_labels(g,pos,edge_labels=edge_labels, font_size=10)
+        ax = plt.gca()
+        ax.xaxis.set_ticks([])
+        ax.yaxis.set_ticks([])
+        ax.set_aspect('equal')
+        return plt.gcf()
