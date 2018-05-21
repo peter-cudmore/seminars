@@ -12,9 +12,9 @@ class OscillatorModel(animation.TimedAnimation):
                  coupling_network=nx.complete_graph,
                  distribution=np.random.standard_normal,
                  timesteps=200,
-                 t_end=25,
+                 t_end=None,
                  symmetric=False,
-                 interval=10,
+                 interval=25,
                  **osc_params):
         """
         :param nodes: The number of oscillators to simulate (default 50)
@@ -65,9 +65,12 @@ class OscillatorModel(animation.TimedAnimation):
         self._init_phase_axis()
         self._init_complex_plane(extent=max_z)
         if not t_end:
-            self._init_r_axis(20, max_z)
+            self.t_max = 50
         else:
-            self._init_r_axis(t_end, max_z)
+            self.t_max = t_end
+        self.t_max_step = 25
+
+        self._init_r_axis(t_max=self.t_max, r_max=max_z)
 
         gs.tight_layout(fig)
 
@@ -88,7 +91,7 @@ class OscillatorModel(animation.TimedAnimation):
         if t_end:
             self.rn_line = Line2D([0, t_end],[self._sn, self._sn], linestyle=':')
         else:
-            self.rn_line = Line2D([0, 100], [self._sn, self._sn],
+            self.rn_line = Line2D([0, self.t_max], [self._sn, self._sn],
                                   linestyle=':')
         self._running = False
         self.ax_r.add_line(self.rn_line)
@@ -188,20 +191,16 @@ class OscillatorModel(animation.TimedAnimation):
 
     def new_frame_seq(self):
         if self.t_end:
-            return iter(range(self.t.size))
+            return iter((self.t[i], self.z[:,i]) for i in range(self.t.size))
         else:
             return self._ode_generator(**self._gen_args)
 
     def _draw_frame(self, framedata):
 
-        if self.t_end:
-            i = framedata
-            z = self.z[:, i]
-            t = self.t[i]
-        else:
-            t, z = framedata
+        t, z = framedata
 
         zsum = np.sum(z) / self.n
+
         theta_avg = np.angle(zsum)
         theta = np.remainder(np.pi + np.angle(z) - theta_avg, 2 * np.pi) - np.pi
 
@@ -215,11 +214,13 @@ class OscillatorModel(animation.TimedAnimation):
         rx.append(t)
         ry.append(abs(zsum))
 
-        if len(rx) > 200:
-            self.ax_r.set_xlim(rx[1], rx[-1])
-            rx = rx[1:]
-            ry = ry[1:]
-            self.rn_line.set_data([rx[1], rx[-1]], [self._sn, self._sn])
+        if t + 10 > self.t_max :
+            self.ax_r.set_xlim(self.t_max-self.t_max_step, self.t_max+self.t_max_step)
+            self.t_max += self.t_max_step
+            slice = int(self.t_max_step*self._timestep *1000)
+            rx = rx[slice:]
+            ry = ry[slice:]
+            self.rn_line.set_data([rx[0], rx[-1]], [self._sn, self._sn])
             self._drawn_artists = [self.rn_line]
         else:
             self._drawn_artists = []
@@ -227,9 +228,91 @@ class OscillatorModel(animation.TimedAnimation):
         self.r_line.set_data(rx, ry)
 
         self._drawn_artists += [self.o_line, self.c_line, self.cz_line,
-                               self.r_line]
+                                self.r_line]
 
 
+class NonlinearOscillatorModel(OscillatorModel):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)    
+
+    def _ode_generator(self, alpha=-1, omega=0, beta=0, k=1):
+
+        L = np.diag(alpha + 1j * (self.omega + omega))
+        self._running = True
+
+        z = self.z[:, 0]
+        n = self.n
+        dt = 10 ** (-3)
+        t = 0
+        step = self._timestep
+        while self._running:
+            t_next = t + step
+            while t < t_next:
+                z1 = np.sum(z)/n
+                F1 = L.dot(z) + z1*k/(1+ np.power(abs(z1),2))
+                k1 = dt * F1
+                z2 = np.sum(z + k1/2)/n
+                k2 = dt *(L.dot(z + k1 / 2) +
+                          z2*k/(1 + np.power(abs(z2),2)))
+                z3 = np.sum(z + k2 / 2)/n
+                k3 = dt * (L.dot(z + k2 / 2) + z3*k/(1 + np.power(abs(z3),2)))
+                z4 = np.sum(z + k3 / 2)/n
+                k4 = dt * (L.dot(z + k3) + z4*k/(1 + np.power(abs(z4), 2)))
+                z += (k1 + 2 * k2 + 2 * k3 + k4) / 6
+                t += dt
+
+            yield (t, z)
+
+    def _init_draw(self):
+        lines = [self.r_line, self.cz_line, self.c_line, self.o_line]
+        for line in lines:
+            line.set_data([], [])
+
+        # def new_frame_seq(self):
+        #     return iter(range(self.t.size))
+
+    def new_frame_seq(self):
+        if self.t_end:
+            return iter((self.t[i], self.z[:, i]) for i in range(self.t.size))
+        else:
+            return self._ode_generator(**self._gen_args)
+
+    def _draw_frame(self, framedata):
+
+        t, z = framedata
+
+        zsum = np.sum(z) / self.n
+
+        theta_avg = np.angle(zsum)
+        theta = np.remainder(np.pi + np.angle(z) - theta_avg, 2 * np.pi) - np.pi
+
+        self.o_line.set_data(list(range(self.n)), theta)
+
+        self.c_line.set_data(np.real(z), np.imag(z))
+        self.cz_line.set_data([np.real(zsum)], [np.imag(zsum)])
+
+        rx, ry = self.r_line.get_data()
+
+        rx.append(t)
+        ry.append(abs(zsum))
+
+        if t + 10 > self.t_max:
+            self.ax_r.set_xlim(self.t_max - self.t_max_step,
+                               self.t_max + self.t_max_step)
+            self.t_max += self.t_max_step
+            slice = int(self.t_max_step * self._timestep * 1000)
+            rx = rx[slice:]
+            ry = ry[slice:]
+            self.rn_line.set_data([rx[0], rx[-1]], [self._sn, self._sn])
+            self._drawn_artists = [self.rn_line]
+        else:
+            self._drawn_artists = []
+
+        self.r_line.set_data(rx, ry)
+
+        self._drawn_artists += [self.o_line, self.c_line, self.cz_line,
+                                self.r_line]
 
 def plot_graph(g=None):
     if not g:

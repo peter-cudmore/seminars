@@ -5,17 +5,12 @@
 \usecolortheme{beaver}
 \usepackage{amsmath}
 \usepackage{amsthm}
-%\usepackage{amsfonts}
 \usepackage{graphicx}
 \usepackage{animate}
-%\usepackage{media9}
-\usepackage[absolute,overlay]{textpos}
 \usepackage{hyperref}
-\usepackage{calc}
 \usepackage{xcolor}
 \usepackage{tcolorbox}
-\usepackage[ autocite=superscript, backend=biber, natbib=true]{biblatex}
-\usepackage{appendixnumberbeamer}
+\usepackage[autocite=superscript, backend=biber]{biblatex}
 
 \newcommand{\textgreek}[1]{\begingroup\fontencoding{LGR}\selectfont#1\endgroup}
 \newcommand{\D}[2]{\frac{\mathrm{d} #1}{\mathrm{d} #2}}
@@ -37,20 +32,7 @@
 \newcommand{\iip}[2]{\langle #1,#2\rangle}
 \newcommand{\ip}[2]{\left\langle #1,#2\right\rangle}
 
-%\newcommand{\includemovie}[3]{%
-%	\includemedia[%
-%	width=#1,height=#2,%
-%	activate=pagevisible,%
-%	deactivate=pageclose,%
-%	addresource=#3,%
-%	flashvars={%
-%		src=#3 % same path as in addresource!
-%		&autoPlay=true % default: false; if =true, automatically starts playback after activation (see option ‘activation)’
-%		&loop=true % if loop=true, media is played in a loop
-%		&controlBarAutoHideTimeout=0 %  time span before auto-hide
-%	}%
-%	]{}{StrobeMediaPlayback.swf}%
-%}
+\newcommand{\github}{\url{https://github.com/peter-cudmore/seminars}}
 \DeclareCiteCommand{\cite}
 {\usebibmacro{prenote}}%
 {%  
@@ -73,20 +55,35 @@
 }
 {\addsemicolon\space}
 {\usebibmacro{postnote}}
-%\renewbibmacro*{cite}{%
-%	\iffieldundef{shorthand}
-%	{\ifthenelse{\ifnameundef{labelname}\OR\iffieldundef{labelyear}}
-%		{\usebibmacro{cite:label}%
-%			\setunit{\addspace}}
-%		{\printnames{labelname}%
-%			\setunit{\nameyeardelim}}%
-%		\usebibmacro{cite:labelyear+extrayear}%
-%		\setunit{\addcomma\space}%
-%		\usebibmacro{journal}}
-%	{\usebibmacro{cite:shorthand}}}
+
+\makeatletter
+\setbeamertemplate{footline}
+{%
+	\begin{beamercolorbox}[colsep=1.5pt]{upper separation line foot}
+	\end{beamercolorbox}
+	\begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,%
+		leftskip=.3cm,rightskip=.3cm plus1fil]{author in head/foot}%
+		\leavevmode{\usebeamerfont{author in head/foot}\insertshortauthor}%
+		\hfill%
+		{\usebeamerfont{institute in head/foot}\usebeamercolor[fg]{institute in head/foot}\insertshortinstitute}%
+	\end{beamercolorbox}%
+	\begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,%
+		leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+		{\usebeamerfont{title in head/foot}\insertshorttitle}%
+		\hfill%
+		{\usebeamerfont{title in head/foot}\github}
+	\end{beamercolorbox}%
+	\begin{beamercolorbox}[colsep=1.5pt]{lower separation line foot}
+	\end{beamercolorbox}
+}
+\makeatother
+
 \graphicspath{{./},{../images/}}
-%\addmediapath{{./anims/},{.}}
+
 \title{Synchronisation}
+\subtitle{\github}
+\setbeamercolor{institute in head/foot}{parent=palette primary}
+\institute{The University of Melbourne}
 \author{Peter Cudmore}
 \bibliography{references}
 \setbeamertemplate{navigation symbols}{} 
@@ -98,16 +95,10 @@
 \end{frame}
 
 
-%\begin{frame}
-%\centering
-%\begin{figure}
-%Synch of 64 Metronomes; Ikeguchi Laberatory.
-%https://www.youtube.com/watch?v=4ti3d3ls5Zg
-%\end{figure}
-%\end{frame}
+
 \section{Introduction}
 \subsection{Motivation}
-\begin{frame}
+\begin{frame}{Origins}
 Synchronous\cite{synch}\\
 
 \vspace{5pt}
@@ -133,7 +124,7 @@ Translated: 'Sharing the common time' or 'sharing the same time'
 %\includemovie{.85\textheight}{.85\textheight}{movies/nature08753-s2.mov}
 \begin{figure}
 \includegraphics[width=0.95\linewidth]{nature08753-f12}
-\caption{Synchronised Florescence in E.Coli, \href{https://www.nature.com/articles/nature08753}{supplementary material} for video.}
+\caption{Synchronised Florescence in E.Coli, video in \href{https://www.nature.com/articles/nature08753}{supplementary material}.}
 \end{figure}
 \end{frame}
 \begin{frame}{A Definition}
@@ -171,6 +162,7 @@ Other examples of biological phenomenon with experimental evidence of synchronis
 \end{itemize}
 \end{frame}
 \section{Anatomy of a coupled oscillator system}
+\subsection{Modelling Coupled Oscillators}
 \begin{frame}{Phenomenological Model of Fireflies}
 \begin{minipage}{0.46\textwidth}
 \begin{figure}
@@ -233,7 +225,7 @@ $z_j(t) = z_j(0)\exp[(-1+\I\omega_j)t]$
 \end{frame}
 \begin{frame}
 \frametitle{Population mean as a measure of coherence.}
-We can measure the state of the population by observing the population mean, or {\em order parameter} \cite{kuramoto75}:
+We can measure the state of the population by observing the population mean, or {\em order parameter}~\cite{kuramoto75}:
 \[
 z = \frac{1}{n}\sum_{j=1}^n z_j
 \]
@@ -257,10 +249,11 @@ z = \frac{1}{n}\sum_{j=1}^n z_j
 \begin{frame}
 \frametitle{Synchronised Vs Unsynchronised Motion}
 \begin{figure}
-	\animategraphics[autoplay,loop,height=6cm]{6}{anims/lcsynch-}{1}{100}
+	\animategraphics[autoplay,loop,height=5.5cm]{6}{anims/lcsynch-}{1}{100}
 	\caption{$25$ Oscillators (in red) and the mean field (in blue).}
 \end{figure}
 \end{frame}
+\subsection{Limit Cycle Oscillators}
 \begin{frame}
 \frametitle{A more general model: The Hopf Bifurcation}
 The normal form of a Hopf Bifurcation at $\alpha = 0$ is given by
@@ -345,8 +338,10 @@ We restrict ourselves to linear and nonlinear all-to-all coupling of the form
 \[
 \Gamma(\mathbf{z}) =zF(|z|)\qquad  \text{where}\qquad z = \frac{1}{n}\sum_{k=1}^nz_k.
 \]
-We will assume where $F:\reals_+ \rightarrow \complex$ and $F(|z|) \rightarrow 0$ as $|z|\rightarrow \infty$
+Assume $F:\reals_+ \rightarrow \complex$ is smooth, bounded and $F(|z|) \rightarrow 0$ as $|z|\rightarrow \infty$.
+\vfill
 
+For example: $\frac{1}{1+|z|^2}$, $\e^{-|z|}$ or Bessel functions $J_m(|z|)$ of the first kind.
 }
 \end{frame}
 \begin{frame}{Coupled Limit Cycle Oscillators}
@@ -364,12 +359,36 @@ To recap:
 	\item Oscillators are modelled as points $z_j$ rotating in $\complex$,
 	\item $\alpha, \beta$ are fixed parameters,
 	\item $\omega_j$ is sampled from an \emph{even symmetric} distribution $g(\omega)$,  
-	\item $F$ is smooth and $F(|z|)\rightarrow 0$ as $|z|\rightarrow\infty$ ,
+	\item $F$ is smooth, bounded, and $F(|z|)\rightarrow 0$ as $|z|\rightarrow\infty$ ,
 	\item The mean field $z$ is often a useful measure of coherence.
 \end{itemize}
 \vfill
 \end{frame}
-\section{Limit Cycle Dynamics}
+\section{Synch}
+\subsection{Limit Cycle Dynamics}
+\begin{frame}{Limit Cycle Dynamics}
+\[
+\quad \D{z_j}{t} = (\alpha - \beta|z_j|^2)z_j + \I\omega_jz_j +zF(|z|), \qquad j = 1,\ldots, n.
+\]
+\vfill
+\begin{columns}
+\begin{column}{.49\textwidth}
+	\centering $\alpha <0$
+	\begin{figure}
+		\includegraphics[scale = 0.16]{node.png}
+	\end{figure}
+\end{column}
+\begin{column}{.49\textwidth}
+\begin{tcolorbox}[notitle, boxrule=1pt, colback=white]
+	\centering
+	$\alpha >0$
+	\begin{figure}
+		\includegraphics[scale = 0.16]{hopf.png}
+	\end{figure}
+\end{tcolorbox}
+\end{column}
+\end{columns}
+\end{frame}
 \begin{frame}{Deriving the Kuramoto Model}
 \[
 \quad \D{z_j}{t} = (\alpha - \beta|z_j|^2)z_j + \I\omega_jz_j +zF(|z|), \qquad j = 1,\ldots, n.
@@ -482,7 +501,31 @@ When $g$ is symmetric and unimodal
 \item $f$ is discontinuous at $\mu=0$ and $\lim_{\mu\rightarrow 0^+} = \pi g(0)$.
 \end{itemize}
 \end{frame}
+\subsection{Stable Node Dynamics}
 \begin{frame}{Stable Node Dynamics}
+\[
+\quad \D{z_j}{t} = (\alpha - \beta|z_j|^2)z_j + \I\omega_jz_j +zF(|z|), \qquad j = 1,\ldots, n.
+\]
+\vfill
+\begin{columns}
+	\begin{column}{.49\textwidth}
+				\begin{tcolorbox}[notitle, boxrule=1pt, colback=white]
+		\centering $\alpha <0$
+		\begin{figure}
+			\includegraphics[scale = 0.16]{node.png}
+		\end{figure}
+			\end{tcolorbox}
+	\end{column}
+	\begin{column}{.49\textwidth}
+			\centering
+			$\alpha >0$
+			\begin{figure}
+				\includegraphics[scale = 0.16]{hopf.png}
+			\end{figure}
+	\end{column}
+\end{columns}
+\end{frame}
+\begin{frame}{Amplitude Death}
 \[
 \D{z_j}{t} = (\alpha - \beta|z_j|^2)z_j + \I\omega_jz_j +zF(|z|), \qquad j = 1,\ldots, n.
 \]
@@ -494,31 +537,35 @@ Consider the case where $\alpha = -1$,$\beta=0$, $F$ smooth, bounded and $F\righ
 In particular, $z_j$ is fixed iff $z$ is fixed up to a constant $\exp(\I\Omega t + \Theta_0)$}
 \only<2>{
 \begin{tcolorbox}[notitle, boxrule=0pt, colback=lred]
-\begin{theorem}
-	Let $g$ be a even symmetric probability distribution, non-increasing on $[0,\infty)$, let $A = \{\lambda: \Re[\lambda] > 1\} \subset\complex$ and $E = 1/f(A)\subset\complex$. Then amplitude death is unstable with probability $\rightarrow 1$ as $n\rightarrow \infty$ if and only if $F() \in E$.
+\begin{theorem}[\citeauthor{pc2015}]
+	Let $g$ be a even symmetric probability distribution, non-increasing on $[0,\infty)$, let $A = \{\lambda: \Re[\lambda] > 1\} \subset\complex$ and $E = 1/f(A)\subset\complex$. Then amplitude death is unstable with probability $\rightarrow 1$ as $n\rightarrow \infty$ if and only if $F(0) \in E$.
 \end{theorem}
 \end{tcolorbox}
 }
+\end{frame}
+\begin{frame}{Demonstration of Amplitude Death.}
+\centering
+\vfill
+...more Jupyter Examples.
 \end{frame}
 \begin{frame}{Proof of Amplitude Death}
 \only<1>{
 To prove the stability result we require:
 \begin{tcolorbox}[notitle, boxrule=0pt, colback=lred]
-\begin{theorem}
-	Let $g(\omega)$ be an even symmetric probability distribution, non-increasing on $[0,\infty)$. Then the dispersion function $f: \complex_+\rightarrow Y \subset\complex_+$ is a conformal map.
+\begin{theorem}{\citeauthor{pc2015}}
+	Let $g(\omega)$ be an even symmetric probability distribution, non-increasing on $[0,\infty)$. Then the dispersion function $f: \complex_+\rightarrow Y \subset\complex_+$ is bijective and holomorphic.
 \end{theorem}
 \end{tcolorbox}
 }
-
 \only<2>{
-Sketch of proof:
+Sketch of the proof:
 \begin{itemize}
 	\item Linearise the system about $z_j=0$..
 	\item Show that the limiting operator has has continuous spectrum along $\Re[\lambda] = -1$, and a discrete spectrum at $F(0) = \frac{1}{f(\lambda+1)}$.
 	\item Use the conformal property of $f$ to show $F(0)\in E$ implies $\lambda+1 \in A$ and hence fixed point is unstable.
 \end{itemize}}
 \begin{center}
-	\includegraphics[scale=0.85]{scm2}
+	\includegraphics[scale=0.8]{scm2}
 \end{center}	
 \end{frame}
 \begin{frame}{Synchronised States}
@@ -530,16 +577,11 @@ Consider the case where $\alpha = -1$,$\beta=0$, $F$ smooth, bounded and $F\righ
 There are also results on stability and bifurcations\cite{pc2015} which are expressed in terms of a playoff between
 \begin{itemize}
 	\item Population heterogeneity (via $f(\mu) = \int_{-\infty}^\infty \frac{g(\omega)}{\mu - \I\omega}\df{\omega}$ and it's derivatives) and 
-	\item coupled topology (via the nature of $F$)
+	\item coupled topology (via the `shape' of $F$)
 \end{itemize}
 \end{frame}
-\begin{frame}{Demonstration of Node dynamics.}
-\centering
-\vfill
-...more Jupyter Examples.
-\end{frame}
 \section{Conclusion}
-\begin{frame}
+\begin{frame}{In Summary}
 Hopefully i've convinced you that:
 \begin{itemize}
 	\item Synchronisation is an example of emergence,
@@ -550,13 +592,18 @@ Hopefully i've convinced you that:
 \end{itemize}
 \end{frame}
 \begin{frame}{Thanks and Acknowledgements}
-
+Thanks to 
+\begin{itemize}
+	\item Dr. Stuart Johnson and the MCB seminar organisers.
+	\item Prof. Edmund Crampin and The Systems Biology Laboratory.
+\end{itemize}
 
 This research was performed under the supervision of Dr. Catherine. A. Holmes, Prof. Joseph Grotowski and Dr. Cecilia Gonzales Tokman at the University of Queensland (UQ) as part the doctoral program funded by the ARC.
 \vspace{12pt}
 
 Additional thanks to Prof. Gerard Milburn, Dr. James Bennett at the UQ ARC Centre of Excellence for Engineered Quantum Systems (EQUS).
 \end{frame}
+\subsection{Appendices and References}
 \begin{frame}{Appendix: Quantum Optomechanics}
 \begin{figure}
 \includegraphics[width=0.9\linewidth]{cavity.jpg}\caption{An optomechanical system~\cite{nanoimg}}
@@ -567,7 +614,9 @@ Additional thanks to Prof. Gerard Milburn, Dr. James Bennett at the UQ ARC Centr
 	\includegraphics[width=0.9\linewidth]{schem2}\caption{Optomechanical equivalent circuit}
 \end{figure}
 \end{frame}
-
-{\tiny
-\printbibliography}
+\begin{frame}[allowframebreaks]
+\frametitle{References}
+\tiny
+\printbibliography
+\end{frame}
 \end{document}
