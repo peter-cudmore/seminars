@@ -96,7 +96,7 @@ class OscillatorModel(animation.TimedAnimation):
         self._running = False
         self.ax_r.add_line(self.rn_line)
         self._gen_args = osc_params
-        self._timestep = interval / 1000.0
+        self._timestep = 2 * interval / 1000.0
         animation.TimedAnimation.__init__(self, fig, interval=interval, blit=True)
 
     def _ode_generator(self, alpha=1, omega=0, beta=1, k=1):
