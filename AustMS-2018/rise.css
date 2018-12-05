@@ -1,4 +1,16 @@
-.reveal img {
-    margin-left: auto;
-    margin-right auto;
+body.rise-enabled div.cell {
+    font-size: 14pt;
 }
+
+body.rise-enabled div.input {
+    font-size: 75%;
+}
+body.rise-enabled div.output {
+    font-size: 75%
+}
+
+
+body.rise-enabled i.fa-4x {
+    visibility:hidden;
+}
+
