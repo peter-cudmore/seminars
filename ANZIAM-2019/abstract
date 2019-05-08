@@ -1,0 +1,9 @@
+BondGraphTools: Modelling network bioenergetics.
+
+Energy is the currency of physical systems, yet models of biological processes often neglect to account for energy and power. While this is not necessarily a problem when describing an individual process, capturing the flow of energy is crucial for building systems level models that avoiding pathological behavior such as perpetual motion. Following how energy is transformed also allows for increasingly physical descriptions of multi-domain processes such as cellular respiration (electro-chemical) and muscular contraction (electro-chemo-kinetic).
+
+In many interesting cases, metabolism for example, cellular systems can be described using a network topology. These networks describe how energy is transformed from one form or location to another. It is this network topology that allows one to talk about distinct subnetworks (the Krebb cycle, for example) and conceptually organize a system into ‘modules’.
+
+Here we present a new software library ‘BondGraphTools’ that allows scientists and engineers to programmatically build and simulate networked models of energy systems. Implemented in Python and Julia, ‘BondGraphTools’ is designed to be intuitive and easy to use whilst providing the efficacy of a modern CAD. We demonstrate some interesting and useful applications of ‘BondGraphTools’ for modelling cross-domain cellular processes.
+
+

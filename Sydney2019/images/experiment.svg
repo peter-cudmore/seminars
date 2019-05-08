@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 269.96 170.08" style="enable-background:new 0 0 269.96 170.08;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#000000;stroke-miterlimit:10;}
+	.st1{fill:#B82025;}
+	.st2{font-family:'MyriadPro-Regular';}
+	.st3{font-size:12px;}
+	.st4{fill:none;stroke:#B82025;stroke-miterlimit:10;}
+	.st5{fill:none;stroke:#9695C9;stroke-miterlimit:10;}
+	.st6{fill:#9695C9;}
+	.st7{fill:none;stroke:#B82025;stroke-miterlimit:10;stroke-dasharray:1.9129,1.9129;}
+	.st8{fill:none;stroke:#9695C9;stroke-miterlimit:10;stroke-dasharray:2.0838,2.0838;}
+	.st9{fill:none;stroke:#E41E25;stroke-miterlimit:10;}
+	.st10{fill:none;stroke:#E41E25;stroke-miterlimit:10;stroke-dasharray:1.9746,1.9746;}
+	.st11{fill:none;stroke:#E41E25;stroke-miterlimit:10;stroke-dasharray:2.0049,2.0049;}
+	.st12{fill:#999999;}
+	.st13{fill:none;stroke:#E41E25;stroke-miterlimit:10;stroke-dasharray:1.974,1.974;}
+</style>
+<line class="st0" x1="80.1" y1="100.43" x2="120.48" y2="60.04"/>
+<text transform="matrix(1 0 0 1 12.0414 82.7132)" class="st1 st2 st3">Laser</text>
+<path class="st0" d="M100.29,43.22c-9.47,0-17.14,7.95-17.14-1.51s7.67-17.14,17.14-17.14s17.14,7.67,17.14,17.14
+	S109.76,43.22,100.29,43.22z"/>
+<path class="st0" d="M117.43,121.47c0,9.47-7.67,17.14-17.14,17.14s-17.14-7.67-17.14-17.14s7.67-1.51,17.14-1.51
+	S117.43,112,117.43,121.47z"/>
+<g>
+	<g>
+		<line class="st4" x1="41.81" y1="78.24" x2="136.04" y2="78.24"/>
+		<g>
+			<path class="st1" d="M134.25,78.24l-2.19-3.6l0.12-0.08l5.88,2.33c2.05,0.45,4.09,0.9,6.14,1.35c-2.05,0.45-4.09,0.9-6.14,1.35
+				l-5.88,2.33l-0.12-0.06L134.25,78.24z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line class="st5" x1="144.2" y1="82.71" x2="108.44" y2="82.71"/>
+		<g>
+			<path class="st6" d="M110.24,82.71l2.19,3.6l-0.12,0.08l-5.88-2.33c-2.05-0.45-4.09-0.9-6.14-1.35c2.05-0.45,4.09-0.9,6.14-1.35
+				l5.88-2.33l0.12,0.06L110.24,82.71z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line class="st4" x1="100.29" y1="78.24" x2="100.29" y2="77.24"/>
+		<line class="st7" x1="100.29" y1="75.32" x2="100.29" y2="53.32"/>
+		<line class="st4" x1="100.29" y1="52.37" x2="100.29" y2="51.37"/>
+		<g>
+			<path class="st1" d="M100.29,53.16l-3.6,2.19l-0.08-0.12l2.33-5.88c0.45-2.05,0.9-4.09,1.35-6.14c0.45,2.05,0.9,4.09,1.35,6.14
+				l2.33,5.88l-0.06,0.12L100.29,53.16z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line class="st5" x1="100.29" y1="82.71" x2="100.29" y2="83.71"/>
+		<line class="st8" x1="100.29" y1="85.8" x2="100.29" y2="109.76"/>
+		<line class="st5" x1="100.29" y1="110.8" x2="100.29" y2="111.8"/>
+		<g>
+			<path class="st6" d="M100.29,110.01l3.6-2.19l0.08,0.12l-2.33,5.88c-0.45,2.05-0.9,4.09-1.35,6.14c-0.45-2.05-0.9-4.09-1.35-6.14
+				l-2.33-5.88l0.06-0.12L100.29,110.01z"/>
+		</g>
+	</g>
+</g>
+<text transform="matrix(1 0 0 1 57.7151 152.4934)"><tspan x="0" y="0" class="st2 st3">Photon</tspan><tspan x="36.85" y="0" class="st2 st3"> </tspan><tspan x="39.16" y="0" class="st2 st3">Counter</tspan></text>
+<g>
+	<g>
+		<path class="st9" d="M144.09,76c0.32-0.09,0.64-0.18,0.96-0.26"/>
+		<path class="st10" d="M146.98,75.27c13.04-2.86,26.08,0,39.12,3.73c6.31,0.9,12.62,0.18,18.19-2.17"/>
+		<path class="st9" d="M205.19,76.43c0.3-0.14,0.6-0.28,0.9-0.43"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path class="st9" d="M206.09,77.43c0.3-0.15,0.6-0.29,0.9-0.43"/>
+		<path class="st11" d="M208.85,76.23c7.27-2.76,15.15-2.45,22.25,0.21c10.35,2.82,21.6,3.88,32.05,1.49"/>
+		<path class="st9" d="M264.13,77.69c0.32-0.08,0.65-0.17,0.97-0.25"/>
+	</g>
+</g>
+<rect x="165.56" y="65.48" class="st6" width="5.71" height="25.51"/>
+<rect x="178.24" y="65.48" class="st6" width="5.71" height="25.51"/>
+<rect x="189.66" y="65.48" class="st6" width="5.71" height="25.51"/>
+<rect x="202.89" y="65.48" class="st6" width="5.71" height="25.51"/>
+<rect x="215.69" y="65.48" class="st6" width="5.71" height="25.51"/>
+<rect x="227.98" y="65.48" class="st6" width="5.71" height="25.51"/>
+<rect x="238.53" y="65.48" class="st6" width="5.71" height="25.51"/>
+<rect x="144.2" y="65.45" class="st12" width="120.79" height="6.44"/>
+<rect x="144.2" y="84.58" class="st12" width="121.19" height="6.44"/>
+<text transform="matrix(1 0 0 1 189.6622 46.3417)"><tspan x="0" y="0" class="st2 st3">Optical</tspan><tspan x="0" y="14.4" class="st2 st3">Cavity</tspan><tspan x="30.95" y="14.4" class="st2 st3"> </tspan></text>
+<text transform="matrix(1 0 0 1 188.4556 129.8649)"><tspan x="0" y="0" class="st2 st3">Nanoscale</tspan><tspan x="0" y="14.4" class="st2 st3">Beams</tspan></text>
+<text transform="matrix(1 0 0 1 63.4684 18.1102)"><tspan x="0" y="0" class="st2 st3">Photon</tspan><tspan x="36.85" y="0" class="st2 st3"> </tspan><tspan x="39.16" y="0" class="st2 st3">Counter</tspan></text>
+<text transform="matrix(1 0 0 1 11.3353 107.693)"><tspan x="0" y="0" class="st2 st3">Beam</tspan><tspan x="28.31" y="0" class="st2 st3"> </tspan><tspan x="30.37" y="0" class="st2 st3">Splitte</tspan><tspan x="62.71" y="0" class="st2 st3">r</tspan></text>
+<path d="M-85-144.15"/>
+<g>
+	<g>
+		<line class="st0" x1="199.32" y1="119.95" x2="169.15" y2="84.45"/>
+		<g>
+			<polygon points="171.73,84.87 169.34,84.67 169.15,87.06 168.22,85.97 168.41,83.58 170.8,83.77 			"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line class="st0" x1="202.89" y1="119.95" x2="184.5" y2="86.04"/>
+		<g>
+			<polygon points="186.94,86.99 184.64,86.3 183.96,88.6 183.27,87.34 183.95,85.04 186.25,85.72 			"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line class="st0" x1="208.6" y1="119.95" x2="205.84" y2="86.18"/>
+		<g>
+			<polygon points="207.69,88.03 205.86,86.47 204.31,88.3 204.2,86.87 205.75,85.04 207.57,86.59 			"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<path class="st9" d="M144.09,80c0.33-0.05,0.66-0.1,0.99-0.15"/>
+		<path class="st13" d="M147.02,79.47c5.8-1.24,11.07-3.33,17.07-2.47c13.37,3.82,26.74,7.64,40.11,3.62"/>
+		<path class="st9" d="M205.15,80.32c0.32-0.1,0.63-0.21,0.95-0.32"/>
+	</g>
+</g>
+<g>
+	<g>
+		<path class="st9" d="M206.09,80c0.3-0.15,0.6-0.29,0.9-0.43"/>
+		<path class="st11" d="M208.84,78.79c7.27-2.76,15.15-2.45,22.25,0.21c10.35,2.82,21.6,3.88,32.06,1.49"/>
+		<path class="st9" d="M264.12,80.25c0.32-0.08,0.65-0.17,0.97-0.25"/>
+	</g>
+</g>
+<rect x="144.2" y="65.48" class="st0" width="120.79" height="25.51"/>
+<rect x="7.6" y="69.67" class="st0" width="34.21" height="17.13"/>
+</svg>

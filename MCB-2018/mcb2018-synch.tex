@@ -78,7 +78,7 @@
 }
 \makeatother
 
-\graphicspath{{./},{../images/}}
+%\graphicspath{{./},{../images/}}
 
 \title{Synchronisation}
 \subtitle{\github}
@@ -112,20 +112,20 @@ Translated: 'Sharing the common time' or 'sharing the same time'
 
 \begin{frame}{Example: Fireflies\cite{Yiu2017}}
 \begin{figure}
-\animategraphics[autoplay, loop, width=0.7\linewidth]{3}{anims/fireflies-}{0}{25}
+%\animategraphics[autoplay, loop, width=0.7\linewidth]{3}{anims/fireflies-}{0}{25}
 \caption{\emph{Photonius carolinus} in Elkmont, Tennessee}
 \end{figure}
 \end{frame}
 \begin{frame}{Example: Neuronal Systems\cite{Buzsaki:2004aa}}
 \begin{figure}
-\includegraphics[height=0.4\textheight]{science_2004_f1}
+%\includegraphics[height=0.4\textheight]{science_2004_f1}
 \caption{Power spectrum of hippocampal EEG in the mouse during sleep and waking periods.}
 \end{figure}
 \end{frame}
 \begin{frame}{Example: Coupled Genetic Clocks\cite{Danino:2010aa}}
 %\includemovie{.85\textheight}{.85\textheight}{movies/nature08753-s2.mov}
 \begin{figure}
-\includegraphics[width=0.95\linewidth]{nature08753-f12}
+%\includegraphics[width=0.95\linewidth]{nature08753-f12}
 \caption{Synchronised Florescence in E.Coli, video in \href{https://www.nature.com/articles/nature08753}{supplementary material}.}
 \end{figure}
 \end{frame}
@@ -139,13 +139,13 @@ Translated: 'Sharing the common time' or 'sharing the same time'
 		\scriptsize
 	\begin{column}{0.49\textwidth}
 		\begin{figure}
-			\includegraphics[scale=0.70]{synch1.pdf}
+			%\includegraphics[scale=0.70]{synch1.pdf}
 			\caption{Unsynchronised motion: oscillators rotate at different angular velocities.}
 		\end{figure}
 	\end{column}
 	\begin{column}{0.49\textwidth}
 		\begin{figure}
-			\includegraphics[scale=0.70]{synch2.pdf}
+			%\includegraphics[scale=0.70]{synch2.pdf}
 			\caption{Synchronised motion: all oscillators rotate at the same angular velocity.}
 		\end{figure}
 	\end{column}
@@ -168,7 +168,7 @@ Other examples of biological phenomenon with experimental evidence of synchronis
 \begin{frame}{Phenomenological Model of Fireflies}
 \begin{minipage}{0.46\textwidth}
 \begin{figure}
-	\animategraphics[autoplay, loop, width=\linewidth]{3}{anims/fireflies-}{0}{25}
+	%\animategraphics[autoplay, loop, width=\linewidth]{3}{anims/fireflies-}{0}{25}
 \end{figure}
 \end{minipage}\hfill
 \begin{minipage}{0.46\textwidth}
@@ -219,7 +219,7 @@ $z_j(t) = z_j(0)\exp[(-1+\I\omega_j)t]$
 \end{minipage}
 \begin{minipage}{0.49\textwidth}
 	\begin{figure}
-		\includegraphics{dosc}
+		%\includegraphics{dosc}
 	\end{figure}
 	\centering
 
@@ -243,7 +243,7 @@ z = \frac{1}{n}\sum_{j=1}^n z_j
 \end{column}
 \begin{column}{0.39\textwidth}
 	\begin{figure}
-		\includegraphics{meanfield.pdf}
+		%\includegraphics{meanfield.pdf}
 	\end{figure}
 \end{column}
 \end{columns}
@@ -251,7 +251,7 @@ z = \frac{1}{n}\sum_{j=1}^n z_j
 \begin{frame}
 \frametitle{Synchronised Vs Unsynchronised Motion}
 \begin{figure}
-	\animategraphics[autoplay,loop,height=5.5cm]{6}{anims/lcsynch-}{1}{100}
+	%\animategraphics[autoplay,loop,height=5.5cm]{6}{anims/lcsynch-}{1}{100}
 	\caption{$25$ Oscillators (in red) and the mean field (in blue).}
 \end{figure}
 \end{frame}
@@ -267,7 +267,7 @@ The normal form of a Hopf Bifurcation at $\alpha = 0$ is given by
 \centering
 $\alpha <0$
 \begin{figure}
-	\includegraphics[scale = 0.16]{node.png}
+	%\includegraphics[scale = 0.16]{node.png}
 \end{figure}
 When $\alpha \le 0$ the fixed point at $z_j =0$ is stable.
 \end{column}
@@ -275,7 +275,7 @@ When $\alpha \le 0$ the fixed point at $z_j =0$ is stable.
 \centering
 $\alpha >0$
 \begin{figure}
-	\includegraphics[scale = 0.16]{hopf.png}
+	%\includegraphics[scale = 0.16]{hopf.png}
 \end{figure}
 For $\alpha>0$, the $z_j=0$ state is unstable and a stable limit cycle exists with $|z_j| = \sqrt{\alpha/\beta}$				
 \end{column}
@@ -292,7 +292,7 @@ Linear Oscillator Model:
 \]
 $\alpha <0,\ j = 1\dots n$.
 \begin{figure}
-	\includegraphics[scale = 0.16]{node.png}
+	%\includegraphics[scale = 0.16]{node.png}
 \end{figure}
 Decoupled system has a stable node and no stable limit cycles.
 \end{column}
@@ -304,7 +304,7 @@ Limit Cycle Model:
 \]
 $\alpha,\beta>0, j = 1\dots n$
 \begin{figure}
-	\includegraphics[scale = 0.16]{hopf.png}
+	%\includegraphics[scale = 0.16]{hopf.png}
 \end{figure}
 Decoupled system has unstable node and a stable limit cycle.
 \end{column}
@@ -327,7 +327,7 @@ Some common choices include:
 \end{minipage}\hfill
 \begin{minipage}{0.3\linewidth}
 \begin{figure}
-	\includegraphics[width=\linewidth]{graph}
+	%\includegraphics[width=\linewidth]{graph}
 	\caption{Part of a small world network}
 \end{figure}
 
@@ -377,7 +377,7 @@ To recap:
 \begin{column}{.49\textwidth}
 	\centering $\alpha <0$
 	\begin{figure}
-		\includegraphics[scale = 0.16]{node.png}
+		%\includegraphics[scale = 0.16]{node.png}
 	\end{figure}
 \end{column}
 \begin{column}{.49\textwidth}
@@ -385,7 +385,7 @@ To recap:
 	\centering
 	$\alpha >0$
 	\begin{figure}
-		\includegraphics[scale = 0.16]{hopf.png}
+		%\includegraphics[scale = 0.16]{hopf.png}
 	\end{figure}
 \end{tcolorbox}
 \end{column}
@@ -407,7 +407,7 @@ we thus have
 \end{eqnarray*}
 \end{minipage}\hfill
 \begin{minipage}{0.275\linewidth}
-\includegraphics[height=0.3\textheight]{hopffast}
+%\includegraphics[height=0.3\textheight]{hopffast}
 \end{minipage}
 }
 \only<2>{
@@ -425,7 +425,7 @@ The system becomes a 'phase oscillator'
 \end{itemize}
 \end{minipage}\hfill
 \begin{minipage}{0.3\linewidth}
-	\includegraphics[height=0.3\textheight]{hopffast}
+	%\includegraphics[height=0.3\textheight]{hopffast}
 \end{minipage}
 
 
@@ -514,7 +514,7 @@ When $g$ is symmetric and unimodal
 				\begin{tcolorbox}[notitle, boxrule=1pt, colback=white]
 		\centering $\alpha <0$
 		\begin{figure}
-			\includegraphics[scale = 0.16]{node.png}
+			%\includegraphics[scale = 0.16]{node.png}
 		\end{figure}
 			\end{tcolorbox}
 	\end{column}
@@ -522,7 +522,7 @@ When $g$ is symmetric and unimodal
 			\centering
 			$\alpha >0$
 			\begin{figure}
-				\includegraphics[scale = 0.16]{hopf.png}
+				%\includegraphics[scale = 0.16]{hopf.png}
 			\end{figure}
 	\end{column}
 \end{columns}
@@ -569,7 +569,7 @@ Sketch of the proof:
 	\item Use the conformal property of $f$ to show $F(0)\in E$ implies $\lambda+1 \in A$ and hence fixed point is unstable.
 \end{itemize}}
 \begin{center}
-	\includegraphics[scale=0.8]{scm2}
+	%\includegraphics[scale=0.8]{scm2}
 \end{center}	
 \end{frame}
 \begin{frame}{Synchronised States}
@@ -613,12 +613,12 @@ Additional thanks to Prof. Gerard Milburn, Dr. James Bennett at the UQ ARC Centr
 \subsection{Appendices and References}
 \begin{frame}{Appendix: Quantum Optomechanics}
 \begin{figure}
-\includegraphics[width=0.9\linewidth]{cavity.jpg}\caption{An optomechanical system~\cite{nanoimg}}
+%\includegraphics[width=0.9\linewidth]{cavity.jpg}\caption{An optomechanical system~\cite{nanoimg}}
 \end{figure}
 \end{frame}
 \begin{frame}{Appendix: Schematic of an optomechanical system}
 \begin{figure}
-	\includegraphics[width=0.9\linewidth]{schem2}\caption{Optomechanical equivalent circuit}
+	%\includegraphics[width=0.9\linewidth]{schem2}\caption{Optomechanical equivalent circuit}
 \end{figure}
 \end{frame}
 \begin{frame}[allowframebreaks]
